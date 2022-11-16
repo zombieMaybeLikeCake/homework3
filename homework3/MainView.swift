@@ -18,6 +18,7 @@ struct MainView: View {
     @State  var background: Double = 0
     @State var sum: Double = 30
     @State private var showAlert = false
+    @State private var success = false
     @State private var alertTitle = ""
     @State private var showNextPage = false
     @State  var attributes : Int = 0
@@ -102,11 +103,21 @@ struct MainView: View {
                 } label: {
                    VStack {
                       Text("開始遊戲")
+                       Spacer()
+                       
+                       Spacer()
                    }
                 } .alert(alertTitle, isPresented: $showAlert, actions: {
                     Button("重新分配") { }
-                }).fullScreenCover(isPresented: $showNextPage, content: {StoryView(name:$name,birthday:$birthday,intelligence:$intelligence,bodys:$bodys,luck:$luck,soul:$soul,appearance:$appearance,background:$background,showNextPage:$showNextPage,attributes:$attributes)})
-                Spacer()
+                }
+                ).fullScreenCover(isPresented: $showNextPage, content: {StoryView(name:$name,birthday:$birthday,intelligence:$intelligence,bodys:$bodys,luck:$luck,soul:$soul,appearance:$appearance,background:$background,showNextPage:$showNextPage,success:$success,attributes:$attributes)})
+                VStack{
+                    Text("破關獎勵！")
+                    Spacer()
+                    Link("原小說目錄章節", destination: URL(string: "https://www.ptwxz.com/html/0/760/")!)
+                }.opacity(success ? 1 : 0)
+                
+            
             }
         }
     }

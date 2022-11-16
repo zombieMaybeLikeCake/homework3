@@ -18,7 +18,7 @@ struct StoryView: View {
     @Binding  var appearance: Double
     @Binding  var background: Double
     @Binding  var showNextPage : Bool
-    
+    @Binding  var success : Bool
     @State    var storys = ["修仙冒險開始","","","","","","","","","","","","","","","","","","","",""]
     @State    var n = 0
     @State    var showlastPage = false
@@ -26,6 +26,7 @@ struct StoryView: View {
     @State    var showproblem = false
     @State    var showproblemone = false
     @State    var showproblemtwo = false
+    
     @State    var Ispick = false
     @State    var Islive = false
     @State private var Textcolor = Color.black
@@ -169,7 +170,7 @@ struct StoryView: View {
                     }
                 }
                 else if(n==8){
-                    if(attributes == 2){
+                    if(attributes == 1){
                         storys.insert("你成為了墨老的親傳弟子，他叫你繼續修煉那個口訣，你過很久才知道那個口訣較長生經\n某一天你在散步的時候被一個小瓶子給絆倒你決定", at: n)
                         showproblem = true
                     }
@@ -235,7 +236,24 @@ struct StoryView: View {
                     }
                 }
                 else if(n==15){
-                    storys.insert("墨老前來驗收你修煉成果，你了隱藏修為", at: n)
+                    if(intelligence>7){
+                        storys.insert("墨老前來驗收你修煉成果，你了隱藏修為", at: n)
+                    }
+                    else{
+                        storys.insert("墨老前來驗收你修煉成果．", at: n)
+                    }
+                    
+                }
+                else if(n==16){
+                    if(intelligence>7){
+                        success = true
+                        showlastPage = true
+                        alertTitle = "你隱藏了實力，所以你在墨老奪舍你時，反殺回去你開始了獨自修仙的旅程"
+                    }
+                    else{
+                        showlastPage = true
+                        alertTitle = "墨老因為你修煉修得太強，無法奪舍，把你殺害了！"
+                    }
                 }
             }
             label:{
@@ -245,9 +263,17 @@ struct StoryView: View {
             ColorPicker("文字顏色", selection: $Textcolor)
               .padding()
         }.alert(alertTitle, isPresented: $showlastPage, actions: {
-            Button("重新輪迴") {
-                showNextPage = false
-            }})
+            if success {
+                Button("遊戲結束，冒險未完") {
+                    showNextPage = false
+                }
+            }
+            else{
+                Button("重新輪迴") {
+                    showNextPage = false
+                }
+            }
+          })
         
     }
 }
@@ -255,7 +281,7 @@ struct StoryView: View {
 struct StoryView_Previews: PreviewProvider {
     @State  static var name = ""
     @State  static var birthday = Date()
-    @State  static var intelligence: Double = 0
+    @State  static var intelligence: Double = 10
     @State  static var bodys: Double = 9
     @State  static var luck: Double = 10
     @State  static var soul: Double = 0
@@ -264,8 +290,9 @@ struct StoryView_Previews: PreviewProvider {
     @State  static var showNextPage = false
     @State  static var attributes : Int = 2
     @State static var DialColor: Color = .black
+    @State  static var success = false
     static var previews: some View {
-        StoryView(name:$name,birthday:$birthday,intelligence:$intelligence,bodys:$bodys,luck:$luck,soul:$soul,appearance:$appearance,background:$background,showNextPage:$showNextPage,attributes:$attributes)
+        StoryView(name:$name,birthday:$birthday,intelligence:$intelligence,bodys:$bodys,luck:$luck,soul:$soul,appearance:$appearance,background:$background,showNextPage:$showNextPage,success:$success, attributes:$attributes)
     }
 }
 	

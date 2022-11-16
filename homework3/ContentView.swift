@@ -9,9 +9,18 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("凡人修仙傳模擬器")
-            .padding()
-        
+        NavigationView {
+            VStack{
+                Text("「煩」人修仙傳模擬器")
+                    .padding()
+                Image("small").resizable().scaledToFit().frame(width: 200, height: 200)
+                NavigationLink {
+                                    MainView()
+                                } label: {
+                                    Text("開始遊戲")
+                                }
+            }
+        }
     }
 }
 
